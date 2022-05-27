@@ -1,6 +1,4 @@
 # yatube_api/api/serializers.py
-
-from email.policy import default
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
