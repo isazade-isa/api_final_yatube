@@ -1,4 +1,5 @@
 # yatube_api/api/serializers.py
+from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
@@ -29,6 +30,12 @@ class CommentSerializer(serializers.ModelSerializer):
         default=serializers.CurrentUserDefault()
     )
     post = serializers.PrimaryKeyRelatedField(read_only=True)
+
+    def validate(self, data):
+        request = self.context.get('request')
+        post_id = int(request.parser_context.get('kwargs').get('post_id'))
+        get_object_or_404(Post, pk=post_id)
+        return data
 
     class Meta:
         fields = ('id', 'author', 'post', 'text', 'created')
